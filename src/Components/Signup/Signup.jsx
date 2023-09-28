@@ -23,7 +23,6 @@ const Signup = () => {
     setPassword("");
   };
   useEffect(() => {
-    console.log(ctx);
     if (ctx.isLoggedIn) {
       navigate("/protected/chat");
     }
@@ -98,7 +97,7 @@ const Signup = () => {
         <div className="form-content">
           <div className="login-form">
             <div className="title">Login</div>
-            <form action="#">
+            <div action="#">
               <div className="input-boxes">
                 <div className="input-box">
                   <i className="fas fa-envelope"></i>
@@ -137,11 +136,11 @@ const Signup = () => {
                   </label>
                 </div>
               </div>
-            </form>
+            </div>
           </div>
           <div className="signup-form">
             <div className="title">Signup</div>
-            <form action="#">
+            <div action="#">
               <div className="input-boxes">
                 <div className="input-box">
                   <i className="fas fa-user"></i>
@@ -187,7 +186,7 @@ const Signup = () => {
                   </label>
                 </div>
               </div>
-            </form>
+            </div>
           </div>
         </div>
       </div>

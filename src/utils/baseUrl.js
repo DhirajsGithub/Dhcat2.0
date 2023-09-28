@@ -1,3 +1,3 @@
-const backendUrl = "https://chat-web-6tu2.onrender.com/";
+const backendUrl = "http://localhost:8000/";
 
 export default backendUrl;
