@@ -7,6 +7,8 @@ import "./Chat.css";
 import { addChat, getChat, getUserList } from "../../utils/apis";
 import UserContext from "../../context";
 import generateUniqueKey from "../../utils/createRoom";
+import Header from "../Header/Header";
+import { Spin } from "antd";
 
 const Chat = () => {
   const ctx = useContext(UserContext);
@@ -15,7 +17,7 @@ const Chat = () => {
   const [loading, setLoading] = useState(false);
   const [userLoading, setUserLoading] = useState(false);
   const [room, setRoom] = useState("groupChatRoom");
-  const [headUserName, setHeadUserName] = useState("Group");
+  const [headUserName, setHeadUserName] = useState("Commnunity");
   const [headUserImg, setheadUserImg] = useState(
     "https://i.pinimg.com/564x/c3/25/b7/c325b770f5be36982a47c6fbe2b6e295.jpg"
   );
@@ -144,7 +146,7 @@ const Chat = () => {
 
   useEffect(() => {
     scrollToBottom();
-  }, [message]);
+  }, [message, chats, room]);
 
   const handleSearchChanage = (e) => {
     // update users
@@ -201,72 +203,50 @@ const Chat = () => {
     return Math.floor(seconds) + " seconds";
   }
   return (
-    <main className="content">
-      <div className="container p-0 mt-3">
-        <div className="card">
-          <div className="row g-0">
-            <div className="col-12 col-lg-5 col-xl-3 border-right">
-              <div className="px-4 d-none d-md-block">
-                <div className="d-flex align-items-center">
-                  <div className="flex-grow-1">
-                    <input
-                      onChange={handleSearchChanage}
-                      type="text"
-                      className="form-control my-3"
-                      placeholder="Search..."
-                    />
-                  </div>
-                </div>
-              </div>
-
-              <div className="user-list chat-messages">
-                <div
-                  onClick={() =>
-                    handleUserClick("groupChatRoom", {
-                      userName: "Group",
-                      userImg: `https://i.pinimg.com/564x/c3/25/b7/c325b770f5be36982a47c6fbe2b6e295.jpg`,
-                    })
-                  }
-                  className="list-group-item list-group-item-action border-0"
-                >
-                  <div className="d-flex align-items-start">
-                    <img
-                      src={`https://i.pinimg.com/564x/c3/25/b7/c325b770f5be36982a47c6fbe2b6e295.jpg`}
-                      className="rounded-circle mr-1"
-                      alt="Vanessa Tucker"
-                      width="40"
-                      height="40"
-                    />
-                    <div className="flex-grow-1 ml-3">
-                      Group
-                      {/* <div className="small">
-                        <span className="fas fa-circle chat-online"></span>{" "}
-                        Online
-                      </div> */}
+    <>
+      <Header />
+      <main className="content">
+        <div className="container p-0 mt-3">
+          <div className="card">
+            <div className="row g-0">
+              <div className="col-12 col-lg-5 col-xl-3 border-right">
+                <div className="px-1 d-md-block">
+                  <div className="d-flex align-items-center">
+                    <div className="flex-grow-1">
+                      <input
+                        onChange={handleSearchChanage}
+                        type="text"
+                        className="form-control my-3"
+                        placeholder="Search..."
+                      />
                     </div>
                   </div>
                 </div>
-                {users?.map((user) => {
-                  return (
+
+                <Spin spinning={userLoading} size="small">
+                  <div className="user-list chat-messages">
+                    <p onClick={() => fetchUserList()} className="refresh-btn">
+                      Refresh
+                    </p>
                     <div
                       onClick={() =>
-                        handleUserClick(user?._id, {
-                          userName: user.name,
-                          userImg: `https://avatars.dicebear.com/api/human/$%7${user?._id}%7D.svg`,
+                        handleUserClick("groupChatRoom", {
+                          userName: "Commnunity",
+                          userImg: `https://i.pinimg.com/564x/c3/25/b7/c325b770f5be36982a47c6fbe2b6e295.jpg`,
                         })
                       }
                       className="list-group-item list-group-item-action border-0"
                     >
                       <div className="d-flex align-items-start">
                         <img
-                          src={`https://avatars.dicebear.com/api/human/$%7${user?._id}%7D.svg`}
+                          src={`https://i.pinimg.com/564x/c3/25/b7/c325b770f5be36982a47c6fbe2b6e295.jpg`}
                           className="rounded-circle mr-1"
                           alt="Vanessa Tucker"
                           width="40"
                           height="40"
                         />
                         <div className="flex-grow-1 ml-3">
-                          {user?.name}
+                          Commnunity
                           {/* <div className="small">
                         <span className="fas fa-circle chat-online"></span>{" "}
                         Online
@@ -274,32 +254,61 @@ const Chat = () => {
                         </div>
                       </div>
                     </div>
-                  );
-                })}
-              </div>
-
-              <hr className="d-block d-lg-none mt-1 mb-0" />
-            </div>
-            <div className="col-12 col-lg-7 col-xl-9">
-              <div className="py-2 px-4 border-bottom d-lg-block">
-                <div className="d-flex align-items-center py-1">
-                  <div className="position-relative">
-                    <img
-                      src={headUserImg}
-                      className="rounded-circle mr-1"
-                      alt="Sharon Lessman"
-                      width="40"
-                      height="40"
-                    />
+                    {users?.map((user) => {
+                      return (
+                        <div
+                          onClick={() =>
+                            handleUserClick(user?._id, {
+                              userName: user.name,
+                              userImg: `https://avatars.dicebear.com/api/human/$%7${user?._id}%7D.svg`,
+                            })
+                          }
+                          className="list-group-item list-group-item-action border-0"
+                        >
+                          <div className="d-flex align-items-start">
+                            <img
+                              src={`https://avatars.dicebear.com/api/human/$%7${user?._id}%7D.svg`}
+                              className="rounded-circle mr-1"
+                              alt="Vanessa Tucker"
+                              width="40"
+                              height="40"
+                            />
+                            <div className="flex-grow-1 ml-3">
+                              {user?.name}
+                              {/* <div className="small">
+                        <span className="fas fa-circle chat-online"></span>{" "}
+                        Online
+                      </div> */}
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    })}
                   </div>
-                  <div className="flex-grow-1 pl-3">
-                    <strong>{headUserName}</strong>
-                    {/* <div className="text-muted small">
+                </Spin>
+
+                <hr className="d-block d-lg-none mt-1 mb-0" />
+              </div>
+              <div className="col-12 col-lg-7 col-xl-9">
+                <div className="py-2 px-4 border-bottom d-lg-block">
+                  <div className="d-flex align-items-center py-1">
+                    <div className="position-relative">
+                      <img
+                        src={headUserImg}
+                        className="rounded-circle mr-1"
+                        alt="Sharon Lessman"
+                        width="40"
+                        height="40"
+                      />
+                    </div>
+                    <div className="flex-grow-1 pl-3">
+                      <strong>{headUserName}</strong>
+                      {/* <div className="text-muted small">
                       <em>Typing...</em>
                     </div> */}
-                  </div>
-                  <div>
-                    {/* <button className="btn btn-primary btn-lg mr-1 px-3">
+                    </div>
+                    <div>
+                      {/* <button className="btn btn-primary btn-lg mr-1 px-3">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         width="24"
@@ -357,69 +366,73 @@ const Chat = () => {
                         <circle cx="5" cy="12" r="1"></circle>
                       </svg>
                     </button> */}
+                    </div>
                   </div>
                 </div>
-              </div>
 
-              <div className="position-relative">
-                <div className="chat-messages p-4">
-                  {chats?.map((chat) => {
-                    return (
-                      <div
-                        key={chat.id}
-                        className={
-                          chat?.senderEmail === userDetails?.email
-                            ? "chat-message-right pb-4"
-                            : "chat-message-left pb-4"
-                        }
-                      >
-                        <div>
-                          <img
-                            src={chat?.imgurl}
-                            className="rounded-circle mr-1"
-                            alt="Chris Wood"
-                            width="40"
-                            height="40"
-                          />
-                          <div className="text-muted small text-nowrap mt-2">
-                            {timeSince(new Date(chat?.time))}
+                <div className="position-relative">
+                  <Spin spinning={loading} size="medium">
+                    <div className="chat-messages p-4">
+                      {chats?.map((chat) => {
+                        return (
+                          <div
+                            key={chat.id}
+                            className={
+                              chat?.senderEmail === userDetails?.email
+                                ? "chat-message-right pb-4"
+                                : "chat-message-left pb-4"
+                            }
+                          >
+                            <div>
+                              <img
+                                src={chat?.imgurl}
+                                className="rounded-circle mr-1"
+                                alt="Chris Wood"
+                                width="40"
+                                height="40"
+                              />
+                              <div className="text-muted small text-nowrap mt-2">
+                                {timeSince(new Date(chat?.time))}
+                              </div>
+                            </div>
+                            <div className="flex-shrink-1 bg-light rounded py-2 px-3 mr-3">
+                              <div className="font-weight-bold mb-1">
+                                {chat?.sender}
+                              </div>
+                              {chat?.message}
+                            </div>
                           </div>
-                        </div>
-                        <div className="flex-shrink-1 bg-light rounded py-2 px-3 mr-3">
-                          <div className="font-weight-bold mb-1">
-                            {chat?.sender}
-                          </div>
-                          {chat?.message}
-                        </div>
-                      </div>
-                    );
-                  })}
-                  <div ref={messagesEndRef} />
+                        );
+                      })}
+                      <div ref={messagesEndRef} />
+                    </div>
+                  </Spin>
                 </div>
-              </div>
 
-              <div className="flex-grow-0 py-3 px-4 border-top">
-                <div className="input-group">
-                  <input
-                    value={message}
-                    onChange={(e) => setMessage(e.target.value)}
-                    type="text"
-                    className="form-control"
-                    placeholder="Type your message"
-                  />
-                  <button
-                    onClick={handleSendMsgClick}
-                    className="btn btn-primary"
-                  >
-                    Send
-                  </button>
+                <div className="flex-grow-0 py-3 px-4 border-top">
+                  <div className="input-group">
+                    <input
+                      value={message}
+                      onChange={(e) => setMessage(e.target.value)}
+                      type="text"
+                      className="form-control"
+                      placeholder="Type your message"
+                    />
+                    &nbsp;&nbsp;
+                    <button
+                      onClick={handleSendMsgClick}
+                      className="btn btn-primary"
+                    >
+                      Send
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-    </main>
+      </main>
+    </>
   );
 };
 

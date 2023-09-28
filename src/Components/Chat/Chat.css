@@ -1,4 +1,12 @@
 body{margin-top:20px;}
+.refresh-btn{
+    text-align: center;
+    margin: 0 auto;
+}
+.refresh-btn:hover{
+    cursor: pointer;
+    text-decoration: underline;
+}
 
 .chat-online {
     color: #34ce57

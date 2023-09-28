@@ -28,8 +28,13 @@ const Signup = () => {
     }
   }, [ctx]);
   const handleSignupClicked = async () => {
-    if (email === "" || password === "" || name === "") {
-      alert("Please fill all the fields");
+    if (
+      email === "" ||
+      password === "" ||
+      name === "" ||
+      !email.includes("@")
+    ) {
+      alert("Please fill all the fields and enter a valid email");
       return;
     }
     try {
@@ -48,8 +53,8 @@ const Signup = () => {
     } catch (error) {}
   };
   const handleSiginClicked = async (e) => {
-    if (email === "" || password === "") {
-      alert("Please fill all the fields");
+    if (email === "" || password === "" || !email.includes("@")) {
+      alert("Please fill all the fields and enter a valid email");
       return;
     }
     try {
@@ -74,7 +79,7 @@ const Signup = () => {
       <div className="cover">
         <div className="front">
           <img
-            src="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_1280.jpg"
+            src="https://media.istockphoto.com/id/1371726643/photo/different-notifications-on-violet-background-pop-up-messages-copy-space.webp?b=1&s=170667a&w=0&k=20&c=FhmBYUrsGsR0hYn5zEDa0SkEFfF-rwuUfMEZ4HpX0rE="
             alt=""
           />
           <div className="text">
@@ -97,7 +102,7 @@ const Signup = () => {
         <div className="form-content">
           <div className="login-form">
             <div className="title">Login</div>
-            <div action="#">
+            <div>
               <div className="input-boxes">
                 <div className="input-box">
                   <i className="fas fa-envelope"></i>
@@ -119,9 +124,7 @@ const Signup = () => {
                     required
                   />
                 </div>
-                <div className="text">
-                  <a href="#">Forgot password?</a>
-                </div>
+
                 <div className="button input-box">
                   <input
                     onClick={handleSiginClicked}
@@ -140,7 +143,7 @@ const Signup = () => {
           </div>
           <div className="signup-form">
             <div className="title">Signup</div>
-            <div action="#">
+            <div>
               <div className="input-boxes">
                 <div className="input-box">
                   <i className="fas fa-user"></i>
